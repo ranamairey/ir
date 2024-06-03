@@ -12,37 +12,32 @@ from nltk.corpus import stopwords
 
 # Initialize the text processor
 text_processor2 = TextPreprocessor()
-dataset = ir_datasets.load("clinicaltrials/2017/trec-pm-2017")
+dataset = ir_datasets.load("trec-tot/2023/train")
 
 # Create empty lists to hold document IDs and texts
 doc_ids = []
-eligibility = []
-detailed_description = []
-summary = []
-condition = []
-title = []
-# Extract document information from the dataset (limited to 3 documents for brevity)
+titles = []
+texts = []
+
+# Loop through the dataset and append the information to the lists
 for doc in dataset.docs_iter():
     doc_ids.append(doc.doc_id)
-    eligibility.append(doc.eligibility)
-    detailed_description.append(doc.detailed_description)
-    summary.append(doc.summary)
-    condition.append(doc.condition)
-    title.append(doc.title)
+    titles.append(doc.page_title)
+    texts.append(doc.text)
+    # Assuming you have access to Wikidata IDs and classes
 
 # Create a DataFrame from the extracted document information
-original_documents_df = pd.DataFrame({'doc_id': doc_ids, 'title': title, 'condition': condition, 'summary': summary, 'detailed_description': detailed_description, 'eligibility': eligibility})
+original_documents_df = pd.DataFrame({'doc_id': doc_ids, 'title': titles, 'texts': texts})
 
 # Initialize a TfidfVectorizer object with specific parameters
-
-vectorizer_file = r"E:\tfidf_vectorizer12.pkl"
+vectorizer_file = r"C:\Users\Dell X360-Gen8\.ir_datasets\trec-tot\tfidf_vectorizer2.pkl"
 with open(vectorizer_file, 'rb') as file:
     vectorizer = joblib.load(file)
 
-input_file = r"E:\tfidf_matrix12.pkl"
+# Transform the processed documents into a TF-IDF matrix
+input_file = r"C:\Users\Dell X360-Gen8\.ir_datasets\trec-tot\tfidf_matrix2.pkl"
 with open(input_file, 'rb') as file:
     tfidf_matrix = joblib.load(file)
-
 
 def preprocess_query_with_suggestions(query):
     """
@@ -150,12 +145,9 @@ def get_similarity_scores(query, with_query_refinement=True):
     # Retrieve and print content for the top 10 documents
     for doc_id in top_doc_ids:
         original_doc_content = original_documents_df[original_documents_df['doc_id'] == doc_id]
-        print(f"Document ID: {doc_id}")
-        print(f"Title: {original_doc_content['title'].values[0]}")
-        print(f"Eligibility: {original_doc_content['eligibility'].values[0]}")
-        print(f"Condition: {original_doc_content['condition'].values[0]}")
-        print(f"Summary: {original_doc_content['summary'].values[0]}")
-        print(f"Detailed Description: {original_doc_content['detailed_description'].values[0]}")
+        print(f"Document ID: {doc.doc_id}")
+        print(f"Title: {doc.page_title}")
+        print(f"Text: {doc.text}")
         print()
 
 # Main loop for user interaction

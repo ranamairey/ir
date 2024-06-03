@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results for "{{ query }}"</h1>
+    <ul>
+        {% for index, row in results.iterrows() %}
+            <li>
+                <h3>Document ID: {{ row['doc_id'] }}</h3>
+                <h4>Page Title: {{ row['page_title'] }}</h4>
+                <p>Wikidata ID: {{ row['wikidata_id'] }}</p>
+                <p>Wikidata Classes: {{ row['wikidata_classes'] }}</p>
+                <p>Text: {{ row['text'] }}</p>
+                <p>Sections: {{ row['sections'] }}</p>
+                <p>Infoboxes: {{ row['infoboxes'] }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
