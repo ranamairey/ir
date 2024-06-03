@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8; /* Light gray background */
+    }
+
+    header {
+      background-color: #3f51b5; /* Dark blue header */
+      color: white; /* White text for header */
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    /* Search results list */
+    .results-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .result-item {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+    }
+
+    /* Document title */
+    h3 {
+      font-size: 20px;
+      color: #333; /* Dark gray title */
+      margin-bottom: 10px;
+    }
+
+    h4 {
+      font-size: 18px;
+      color: #007bff; /* Blue title */
+      margin-bottom: 5px;
+    }
+
+    /* Field labels */
+    .field-label {
+      font-weight: bold;
+      font-size: 16px;
+      color: #6c757d; /* Gray labels */
+      margin-bottom: 5px;
+    }
+
+    /* Field content */
+    .field-content {
+      margin-bottom: 10px;
+    }
+
+    /* Eligibility */
+    .eligibility-label {
+      color: #28a745; /* Green label */
+    }
+
+    .eligibility-content {
+      color: #28a745; /* Green content */
+    }
+
+    /* Condition */
+    .condition-label {
+      color: #dc3545; /* Red label */
+    }
+
+    .condition-content {
+      color: #dc3545; /* Red content */
+    }
+
+    /* Summary */
+    .summary-label {
+      color: #ffc107; /* Orange label */
+    }
+
+    .summary-content {
+      color: #ffc107; /* Orange content */
+    }
+
+    /* Detailed Description */
+    .detailed-description-label {
+      color: #3f51b5; /* Blue label */
+    }
+
+    .detailed-description-content {
+      color: #3f51b5; /* Blue content */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Search Results for "{{ query }}"</h1>
+  </header>
+  <main>
+    <ul class="results-list">
+      {% for index, row in results.iterrows() %}
+        <li class="result-item">
+          <h3>Document ID: {{ row['doc_id'] }}</h3>
+          <h4 style="color: inherit;">{{ row['title'] }}</h4> {% if row['eligibility'] %}
+            <p class="field-label"><b>Eligibility:</b></p>
+            <p class="field-content">{{ row['eligibility'] }}</p>
+          {% endif %}
+          {% if row['condition'] %}
+            <p class="field-label"><b>Condition:</b></p>
+            <p class="field-content">{{ row['condition'] }}</p>
+          {% endif %}
+          {% if row['summary'] %}
+            <p class="field-label"><b>Summary:</b></p>
+            <p class="field-content">{{ row['summary'] }}</p>
+          {% endif %}
+          {% if row['detailed_description'] %}
+            <p class="field-label"><b>Detailed Description:</b></p>
+            <p class="field-content">{{ row['detailed_description'] }}</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </main>
+</body>
+</html>
